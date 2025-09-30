@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from gspread_pandas import Spread, Client
+import gspread
+from gspread_pandas import Spread
 from gspread.exceptions import SpreadsheetNotFound, APIError
 
 # ===============================================================
@@ -50,13 +51,12 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
             st.info("Streamlit Cloud의 'Settings > Secrets'에 gcp_service_account 이름으로 키를 올바르게 저장했는지 확인해주세요.")
             return None
 
-        # 2. Google Sheets 클라이언트 인증 시도
-        # ✨ FIX: st.secrets 객체를 일반 dict로 변환하여 라이브러리가 인식할 수 있도록 수정
+        # 2. Google Sheets 클라이언트 인증 시도 (✨ FIX: gspread 표준 인증 방식으로 변경)
         creds = dict(st.secrets["gcp_service_account"])
-        client = Client(creds)
+        gspread_client = gspread.service_account_from_dict(creds)
 
         # 3. 특정 스프레드시트 및 시트 접근 시도
-        spread = Spread(spreadsheet_name, sheet=sheet_name, client=client)
+        spread = Spread(spreadsheet_name, sheet=sheet_name, client=gspread_client)
         df = spread.sheet_to_df(index=False)
         
         # 데이터 타입 변환 및 정리
