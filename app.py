@@ -51,7 +51,8 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
             return None
 
         # 2. Google Sheets 클라이언트 인증 시도
-        creds = st.secrets["gcp_service_account"]
+        # ✨ FIX: st.secrets 객체를 일반 dict로 변환하여 라이브러리가 인식할 수 있도록 수정
+        creds = dict(st.secrets["gcp_service_account"])
         client = Client(creds)
 
         # 3. 특정 스프레드시트 및 시트 접근 시도
