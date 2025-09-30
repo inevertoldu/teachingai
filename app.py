@@ -26,7 +26,7 @@ except Exception as e:
 # 사용자 입력 UI
 # ===============================================================
 # 구글 시트 문서 이름을 입력하세요.
-SPREADSHEET_NAME = "본인의 Google Sheet 문서 이름" 
+SPREADSHEET_NAME = "student_perspective" 
 
 # Apps Script에 정의된 시트 이름과 동일하게 작성합니다.
 SHEET_OPTIONS = {
