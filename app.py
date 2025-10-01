@@ -51,7 +51,35 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
             "type": "service_account",
             "project_id": "gen-lang-client-0622212754",
             "private_key_id": "3c30ffbb07392a4e6139db1ae9493e9ce15db68c",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDunHjOLVgFg+s+\njBNGs1fPidPzrlbOH1B8Qn3wN2PtJSAUDSxtKQKHrg2nLZyp4of3dWWHOLfVKSBg\nZFadfaTTnaAyylnQZX4JFIe9Tvj2FklGkPzLWhmK1juufEkr0WKosxW5A1KxgQEW\npHYbeM1CGAyFDBwvcrEH0AfOMuHWtyWIMKNURmia8hddHduw5wdl8lCBqsCTwThQ\nmefjDY1k34asF/wY0eL3rj0kTasg+wOrZsLp5PjPd23uV6/Xi1N64mgocBe15UYT\ngII8/OyECBw6HjPcm4TJiUFnXMx5qnH0B5MyO2fQEEK9xnOEbXo0mHXeqoX9lp2C\nPAA0ZIiJAgMBAAECggEAFKRRqRhwHG4InE0W389lAc29GcATv1ojJtTDu1O3X80N\n5N4s4TaiguVSRguimWnA9G3h/hwwfw7DP8N+YLp9V1c0BCDQO0CEcjml8oER9YwB\nA8tIKzlcq0+UMyiKVfGTtN9lOi+o6DUuSGyq0P6W1yhocNwW1h34ZaIgAr0RH3dm\n0wCh4vq7wjx0xDpSpOj6kMaBy+F7fGB15Y+JX+4GGd44HjW0pOBliykeDY2DcJyo\nmyv+fy2OUarW1XjRRCO+H7MTJXxem4eiQUfHWW/b6Yw/mzMJ6OyNGfVWMRv1fdkR\n9ek5pkjTgk9GUppZTiSvJdpC7I95DsxkoOKiv1YqAQKBgQD4iBNeMYbcfyl+Zl0C\nnGoaTJ2RK0iE5aXyCKt3bEVJPYVtwBU0cl3Um3ltWBXKTSbPp3ILTiGbEmcKcBzI\n29t/BdkiEfDrX2ufy3cWEWo9/FcbGOeAUalD2xPu10TNmSvkJw2pK8qNBcaOb2mS\noffLvocgwkBF3RwhmF02XsCfgQKBgQD1yBSPdDkXQGqQfT16fqOlkE7rWFAQkIK1\nsn9i38rQ5z3U5pmw2AIGBtXpQcA4grpjTJqgqZm2OuaZQeAE8dfHemDEMzD8KcMO\nkXScrablGkyB6Tdfq8wqSU+LZDhMdcU0sLldKspzBTk3mLk46ZgwQSD9BhdR7YZF\nwu+I1jVtCQKBgBcmze8TXAXETsA4lud8XKHwiykPyCShI/FE/3wTeOzWr0xG/XKy\nSK1aglg+QWFkCH6Fkakd8SF5+GFPik7ntC3EBLMYysGSVPtAv+otWyFFFXQvwLkC\nYmswyE2SfhVM9Hq/bJVav/adGB8Cn+oJ7oRrTjkt/0DC1TEH+X7sGrOBAoGBAIPI\n2F1i8AmrnHgE7yXzKUPo8Kf4HlYDZlKOdwdI/7KritfRHa9Y4xzgJWqAutSSI+aC\neJaU2bqAMo0SaU+9bPmkgKYy3J0Yt2HkVCZ+ZfKJ+2Pc7Lf7oek6jdAr2JQGwcrS\nx1FRVGP/9QH+fbIqblPRWCLTVUW0mj5lm5I/aT4hAoGBAI0d/jZVl8+I9zIHURIx\noDcM0yMydVGNBfw3Oe1besMcAQM4sRbyzeKf1grR8dzDMc48st2WCOoT+L5Cnsat\no4t/5pM+DvHYlAXba6Uc7TmcL0U0lX8m4/dsrmMsGQ4IcVFE8EeHPaUk6Zp3xNej\ni7XCNja/n6bWkpGeja6HhPzW\n-----END PRIVATE KEY-----".replace('\\n', '\n'),
+            # ✨ FIX: private_key를 삼중 따옴표를 사용한 여러 줄 문자열로 변경하여 형식 오류를 원천 차단합니다.
+            "private_key": """-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDunHjOLVgFg+s+
+jBNGs1fPidPzrlbOH1B8Qn3wN2PtJSAUDSxtKQKHrg2nLZyp4of3dWWHOLfVKSBg
+ZFadfaTTnaAyylnQZX4JFIe9Tvj2FklGkPzLWhmK1juufEkr0WKosxW5A1KxgQEW
+pHYbeM1CGAyFDBwvcrEH0AfOMuHWtyWIMKNURmia8hddHduw5wdl8lCBqsCTwThQ
+mefjDY1k34asF/wY0eL3rj0kTasg+wOrZsLp5PjPd23uV6/Xi1N64mgocBe15UYT
+gII8/OyECBw6HjPcm4TJiUFnXMx5qnH0B5MyO2fQEEK9xnOEbXo0mHXeqoX9lp2C
+PAA0ZIiJAgMBAAECggEAFKRRqRhwHG4InE0W389lAc29GcATv1ojJtTDu1O3X80N
+5N4s4TaiguVSRguimWnA9G3h/hwwfw7DP8N+YLp9V1c0BCDQO0CEcjml8oER9YwB
+A8tIKzlcq0+UMyiKVfGTtN9lOi+o6DUuSGyq0P6W1yhocNwW1h34ZaIgAr0RH3dm
+0wCh4vq7wjx0xDpSpOj6kMaBy+F7fGB15Y+JX+4GGd44HjW0pOBliykeDY2DcJyo
+myv+fy2OUarW1XjRRCO+H7MTJXxem4eiQUfHWW/b6Yw/mzMJ6OyNGfVWMRv1fdkR
+9ek5pkjTgk9GUppZTiSvJdpC7I95DsxkoOKiv1YqAQKBgQD4iBNeMYbcfyl+Zl0C
+nGoaTJ2RK0iE5aXyCKt3bEVJPYVtwBU0cl3Um3ltWBXKTSbPp3ILTiGbEmcKcBzI
+29t/BdkiEfDrX2ufy3cWEWo9/FcbGOeAUalD2xPu10TNmSvkJw2pK8qNBcaOb2mS
+offLvocgwkBF3RwhmF02XsCfgQKBgQD1yBSPdDkXQGqQfT16fqOlkE7rWFAQkIK1
+sn9i38rQ5z3U5pmw2AIGBtXpQcA4grpjTJqgqZm2OuaZQeAE8dfHemDEMzD8KcMO
+kXScrablGkyB6Tdfq8wqSU+LZDhMdcU0sLldKspzBTk3mLk46ZgwQSD9BhdR7YZF
+wu+I1jVtCQKBgBcmze8TXAXETsA4lud8XKHwiykPyCShI/FE/3wTeOzWr0xG/XKy
+SK1aglg+QWFkCH6Fkakd8SF5+GFPik7ntC3EBLMYysGSVPtAv+otWyFFFXQvwLkC
+YmswyE2SfhVM9Hq/bJVav/adGB8Cn+oJ7oRrTjkt/0DC1TEH+X7sGrOBAoGBAIPI
+2F1i8AmrnHgE7yXzKUPo8Kf4HlYDZlKOdwdI/7KritfRHa9Y4xzgJWqAutSSI+aC
+eJaU2bqAMo0SaU+9bPmkgKYy3J0Yt2HkVCZ+ZfKJ+2Pc7Lf7oek6jdAr2JQGwcrS
+x1FRVGP/9QH+fbIqblPRWCLTVUW0mj5lm5I/aT4hAoGBAI0d/jZVl8+I9zIHURIx
+oDcM0yMydVGNBfw3Oe1besMcAQM4sRbyzeKf1grR8dzDMc48st2WCOoT+L5Cnsat
+o4t/5pM+DvHYlAXba6Uc7TmcL0U0lX8m4/dsrmMsGQ4IcVFE8EeHPaUk6Zp3xNej
+i7XCNja/n6bWkpGeja6HhPzW
+-----END PRIVATE KEY-----""",
             "client_email": "streamlit-g-sheets-reader@gen-lang-client-0622212754.iam.gserviceaccount.com",
             "client_id": "107259292181379513848",
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
