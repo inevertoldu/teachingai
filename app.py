@@ -50,42 +50,14 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
         creds_dict = {
             "type": "service_account",
             "project_id": "gen-lang-client-0622212754",
-            "private_key_id": "3c30ffbb07392a4e6139db1ae9493e9ce15db68c",
-            # ✨ FIX: private_key를 삼중 따옴표를 사용한 여러 줄 문자열로 변경하여 형식 오류를 원천 차단합니다.
-            "private_key": """-----BEGIN PRIVATE KEY-----
-MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDunHjOLVgFg+s+
-jBNGs1fPidPzrlbOH1B8Qn3wN2PtJSAUDSxtKQKHrg2nLZyp4of3dWWHOLfVKSBg
-ZFadfaTTnaAyylnQZX4JFIe9Tvj2FklGkPzLWhmK1juufEkr0WKosxW5A1KxgQEW
-pHYbeM1CGAyFDBwvcrEH0AfOMuHWtyWIMKNURmia8hddHduw5wdl8lCBqsCTwThQ
-mefjDY1k34asF/wY0eL3rj0kTasg+wOrZsLp5PjPd23uV6/Xi1N64mgocBe15UYT
-gII8/OyECBw6HjPcm4TJiUFnXMx5qnH0B5MyO2fQEEK9xnOEbXo0mHXeqoX9lp2C
-PAA0ZIiJAgMBAAECggEAFKRRqRhwHG4InE0W389lAc29GcATv1ojJtTDu1O3X80N
-5N4s4TaiguVSRguimWnA9G3h/hwwfw7DP8N+YLp9V1c0BCDQO0CEcjml8oER9YwB
-A8tIKzlcq0+UMyiKVfGTtN9lOi+o6DUuSGyq0P6W1yhocNwW1h34ZaIgAr0RH3dm
-0wCh4vq7wjx0xDpSpOj6kMaBy+F7fGB15Y+JX+4GGd44HjW0pOBliykeDY2DcJyo
-myv+fy2OUarW1XjRRCO+H7MTJXxem4eiQUfHWW/b6Yw/mzMJ6OyNGfVWMRv1fdkR
-9ek5pkjTgk9GUppZTiSvJdpC7I95DsxkoOKiv1YqAQKBgQD4iBNeMYbcfyl+Zl0C
-nGoaTJ2RK0iE5aXyCKt3bEVJPYVtwBU0cl3Um3ltWBXKTSbPp3ILTiGbEmcKcBzI
-29t/BdkiEfDrX2ufy3cWEWo9/FcbGOeAUalD2xPu10TNmSvkJw2pK8qNBcaOb2mS
-offLvocgwkBF3RwhmF02XsCfgQKBgQD1yBSPdDkXQGqQfT16fqOlkE7rWFAQkIK1
-sn9i38rQ5z3U5pmw2AIGBtXpQcA4grpjTJqgqZm2OuaZQeAE8dfHemDEMzD8KcMO
-kXScrablGkyB6Tdfq8wqSU+LZDhMdcU0sLldKspzBTk3mLk46ZgwQSD9BhdR7YZF
-wu+I1jVtCQKBgBcmze8TXAXETsA4lud8XKHwiykPyCShI/FE/3wTeOzWr0xG/XKy
-SK1aglg+QWFkCH6Fkakd8SF5+GFPik7ntC3EBLMYysGSVPtAv+otWyFFFXQvwLkC
-YmswyE2SfhVM9Hq/bJVav/adGB8Cn+oJ7oRrTjkt/0DC1TEH+X7sGrOBAoGBAIPI
-2F1i8AmrnHgE7yXzKUPo8Kf4HlYDZlKOdwdI/7KritfRHa9Y4xzgJWqAutSSI+aC
-eJaU2bqAMo0SaU+9bPmkgKYy3J0Yt2HkVCZ+ZfKJ+2Pc7Lf7oek6jdAr2JQGwcrS
-x1FRVGP/9QH+fbIqblPRWCLTVUW0mj5lm5I/aT4hAoGBAI0d/jZVl8+I9zIHURIx
-oDcM0yMydVGNBfw3Oe1besMcAQM4sRbyzeKf1grR8dzDMc48st2WCOoT+L5Cnsat
-o4t/5pM+DvHYlAXba6Uc7TmcL0U0lX8m4/dsrmMsGQ4IcVFE8EeHPaUk6Zp3xNej
-i7XCNja/n6bWkpGeja6HhPzW
------END PRIVATE KEY-----""",
-            "client_email": "streamlit-g-sheets-reader@gen-lang-client-0622212754.iam.gserviceaccount.com",
-            "client_id": "107259292181379513848",
+            "private_key_id": "9122e6c1595baf7c28a347a141d7d04d47713f61",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZ7OL24SikiTCE\nv24xdrSb1g6BuvSiqoT2XEtTFfIouz8ctVpQxtwpaKSNNVyvMCIIXWP1orgpYGu2\nuEAdsKd9VmBnVAEMSZpmUUqz1vtqU5fBtFNb0bZR5Sa8YLEn+fyTlIBHKiaezvFJ\nCx0f+WAMAb3usNrAGMcgZ/jq4H3A6eViuaa+QnQd7tRiKYh+HBDQt2GKhITWAKkc\nr0wGwaa/ZgcQV+8RCBRlEOjL2mP1Qyz2khY6DpNxO7WZmozbcAxYXUe9lq6YrC+2\neynPli4JSzLDHA7UDmWWLDFHejiELs1Zbnx8m8QLQskOM3TYAbVLDXM3hzD5MvF1\nlWzLe/IPAgMBAAECggEABe1iUWFwQDhsNDXEQjFbrm3lbHIiPiqqKMElwWhPRT7t\n+jwIOKNqZ58jnwXBW5mokIE6z9hZQSFOZIs0ejA1nZT4Qg0GZqO68gUKsbbYmEqU\ncHLHjE9HYbXyR5TC8v15usZ1fh1jFAB3Ys8DwG8eQg1wc+2ULuDat3u+0RnzSGdq\nEQV+8QeK0G3GFLPPX4IdnYOCp9ZjvHtHcpW8GXzyuuSUa3b16HUg0FvTSwvaJo0P\nicIb9dkP7Qb2wsDhWjbQ9qW/zw1oxnbUGsCdaVOLrEoUHOGAz9GmWO17hucotaIA\nI+zyQDpOekLKN7ETOlF4p/nH98SwoH6DuKBKtrEhIQKBgQDL6T61fAem73l6bDoC\nU3Y8uZrtmfmpe/5r7T6u9Bj59SCrhCK/LVzeJor8BQslCvlDPZ+zVhPTplt/hgMS\nG1gYpmePuZam/pmmUWhJlOmY8e6rfBkewc3ayv755V3GaJARGyQdqXAfo/C/OnZR\nGYdbqIRCFWWtYPtERShkQKvAfwKBgQDBPtMqNuu6awahBYjcBRlsY4zUti0aJ+Ve\no/EaIByZMc83XO6dZtxH+wjik/k4ybSEXmWd1NQw9NC/DH5YdERl+H1Uyz1Ib0Vv\ngKj0yymXCQzBiq1JRZFOG6K0fKcNOvXlIYpcaA+su1G4JzGrDvvkJ/x3i1vNQUTx\nekXPMlcGcQKBgQDAucVxVrcMys6wLNZvGF9qaarK43sa+3yumV9jkIaCyXKFabBF\nrSRXO2qlZEbyTfrl2Lq2j6bRpixYzVrdpEaRlcXQDAMd9wlWLx84XKykyBViszoy\n3c4o+zAfFPCa9H0mDdcGyfyViyeiNilZ4Z0TvqSyqPKe+kjCb/MLPiyXFQKBgDmN\n+5iEGPtBqwzEODnHbwYANE6aH569qSvhygpM7BeYZS4JCKxqmUr68m+BQOXv9UrD\nTqKOY9Bc6dss3mh74G86biGWEp+DPHv0Jt4ZsD5inKD8K5Y6GQfZZUE6Kwret6PR\ntILHH3wDolglnD5lTRJr8l6sa+AbA2ykTSxjwtWRAoGAdSmevGJGBjvPLOqA+de8\ntAR7VOk/2ifQl3HixHRydgfapMIhMtSmRQGbmsaaN9VM55v90XBMqlr9JpqrjGxC\nx+dy43pKm1JuEOcZZ1agW9uBqkujWz43YRq8x9TW6L47q6vKYvmkkGuhND5CX65h\nnJd0yuSVOQHOr5VODIEc4PI=\n-----END PRIVATE KEY-----\n",
+            "client_email": "teachingai@gen-lang-client-0622212754.iam.gserviceaccount.com",
+            "client_id": "109874061739557535802",
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/streamlit-g-sheets-reader%40gen-lang-client-0622212754.iam.gserviceaccount.com",
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/teachingai%40gen-lang-client-0622212754.iam.gserviceaccount.com",
             "universe_domain": "googleapis.com"
         }
         gspread_client = gspread.service_account_from_dict(creds_dict)
