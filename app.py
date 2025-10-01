@@ -45,31 +45,21 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
     데이터 로딩을 시도하고, 실패 시 구체적인 원인과 해결책을 안내하는 함수
     """
     try:
-        # 1. Streamlit Secrets에 키가 존재하는지 먼저 확인
-        if "gcp_service_account" not in st.secrets:
-            st.error("🚨 Secrets 설정 오류: 'gcp_service_account'를 찾을 수 없습니다.")
-            st.info("Streamlit Cloud의 'Settings > Secrets'에 gcp_service_account 이름으로 키를 올바르게 저장했는지 확인해주세요.")
-            return None
-
-        # 2. Google Sheets 클라이언트 인증 시도 (✨ FIX: Secrets 접근 방식을 딕셔너리 형태로 변경하여 안정성 대폭 향상)
-        # st.secrets 객체를 점(.)이 아닌 대괄호([])로 접근하여 데이터 타입 불일치 문제를 원천적으로 해결합니다.
-        creds_info = st.secrets["gcp_service_account"]
+        # ‼️ DEBUGGING: JSON 키를 코드에 직접 삽입하여 Secrets 문제인지 확인합니다.
+        # ‼️ 보안상 매우 위험하므로, 테스트 후 반드시 원래의 코드로 되돌려야 합니다.
         creds_dict = {
-            "type": creds_info["type"],
-            "project_id": creds_info["project_id"],
-            "private_key_id": creds_info["private_key_id"],
-            "private_key": creds_info["private_key"],
-            "client_email": creds_info["client_email"],
-            "client_id": creds_info["client_id"],
-            "auth_uri": creds_info["auth_uri"],
-            "token_uri": creds_info["token_uri"],
-            "auth_provider_x509_cert_url": creds_info["auth_provider_x509_cert_url"],
-            "client_x509_cert_url": creds_info["client_x509_cert_url"]
+            "type": "service_account",
+            "project_id": "gen-lang-client-0622212754",
+            "private_key_id": "3c30ffbb07392a4e6139db1ae9493e9ce15db68c",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDunHjOLVgFg+s+\njBNGs1fPidPzrlbOH1B8Qn3wN2PtJSAUDSxtKQKHrg2nLZyp4of3dWWHOLfVKSBg\nZFadfaTTnaAyylnQZX4JFIe9Tvj2FklGkPzLWhmK1juufEkr0WKosxW5A1KxgQEW\npHYbeM1CGAyFDBwvcrEH0AfOMuHWtyWIMKNURmia8hddHduw5wdl8lCBqsCTwThQ\nmefjDY1k34asF/wY0eL3rj0kTasg+wOrZsLp5PjPd23uV6/Xi1N64mgocBe15UYT\ngII8/OyECBw6HjPcm4TJiUFnXMx5qnH0B5MyO2fQEEK9xnOEbXo0mHXeqoX9lp2C\nPAA0ZIiJAgMBAAECggEAFKRRqRhwHG4InE0W389lAc29GcATv1ojJtTDu1O3X80N\n5N4s4TaiguVSRguimWnA9G3h/hwwfw7DP8N+YLp9V1c0BCDQO0CEcjml8oER9YwB\nA8tIKzlcq0+UMyiKVfGTtN9lOi+o6DUuSGyq0P6W1yhocNwW1h34ZaIgAr0RH3dm\n0wCh4vq7wjx0xDpSpOj6kMaBy+F7fGB15Y+JX+4GGd44HjW0pOBliykeDY2DcJyo\nmyv+fy2OUarW1XjRRCO+H7MTJXxem4eiQUfHWW/b6Yw/mzMJ6OyNGfVWMRv1fdkR\n9ek5pkjTgk9GUppZTiSvJdpC7I95DsxkoOKiv1YqAQKBgQD4iBNeMYbcfyl+Zl0C\nnGoaTJ2RK0iE5aXyCKt3bEVJPYVtwBU0cl3Um3ltWBXKTSbPp3ILTiGbEmcKcBzI\n29t/BdkiEfDrX2ufy3cWEWo9/FcbGOeAUalD2xPu10TNmSvkJw2pK8qNBcaOb2mS\noffLvocgwkBF3RwhmF02XsCfgQKBgQD1yBSPdDkXQGqQfT16fqOlkE7rWFAQkIK1\nsn9i38rQ5z3U5pmw2AIGBtXpQcA4grpjTJqgqZm2OuaZQeAE8dfHemDEMzD8KcMO\nkXScrablGkyB6Tdfq8wqSU+LZDhMdcU0sLldKspzBTk3mLk46ZgwQSD9BhdR7YZF\nwu+I1jVtCQKBgBcmze8TXAXETsA4lud8XKHwiykPyCShI/FE/3wTeOzWr0xG/XKy\nSK1aglg+QWFkCH6Fkakd8SF5+GFPik7ntC3EBLMYysGSVPtAv+otWyFFFXQvwLkC\nYmswyE2SfhVM9Hq/bJVav/adGB8Cn+oJ7oRrTjkt/0DC1TEH+X7sGrOBAoGBAIPI\n2F1i8AmrnHgE7yXzKUPo8Kf4HlYDZlKOdwdI/7KritfRHa9Y4xzgJWqAutSSI+aC\neJaU2bqAMo0SaU+9bPmkgKYy3J0Yt2HkVCZ+ZfKJ+2Pc7Lf7oek6jdAr2JQGwcrS\nx1FRVGP/9QH+fbIqblPRWCLTVUW0mj5lm5I/aT4hAoGBAI0d/jZVl8+I9zIHURIx\noDcM0yMydVGNBfw3Oe1besMcAQM4sRbyzeKf1grR8dzDMc48st2WCOoT+L5Cnsat\no4t/5pM+DvHYlAXba6Uc7TmcL0U0lX8m4/dsrmMsGQ4IcVFE8EeHPaUk6Zp3xNej\ni7XCNja/n6bWkpGeja6HhPzW\n-----END PRIVATE KEY-----".replace('\\n', '\n'),
+            "client_email": "streamlit-g-sheets-reader@gen-lang-client-0622212754.iam.gserviceaccount.com",
+            "client_id": "107259292181379513848",
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/streamlit-g-sheets-reader%40gen-lang-client-0622212754.iam.gserviceaccount.com",
+            "universe_domain": "googleapis.com"
         }
-        # universe_domain은 최신 키에만 존재하므로, 있을 때만 추가합니다.
-        if "universe_domain" in creds_info:
-            creds_dict["universe_domain"] = creds_info["universe_domain"]
-
         gspread_client = gspread.service_account_from_dict(creds_dict)
 
 
@@ -122,7 +112,7 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
 
     except Exception as e:
         st.error("😭 예측하지 못한 오류가 발생했습니다.")
-        st.info("JSON 키의 형식이 잘못되었을 가능성이 높습니다. TOML 형식에 맞게 Secrets를 작성했는지 다시 확인해주세요.")
+        st.info("이제 문제는 Secrets가 아닌, 다른 곳에 있을 확률이 높습니다.")
         st.code(f"상세 오류: {e}", language=None)
         return None
 
