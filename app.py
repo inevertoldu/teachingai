@@ -9,7 +9,7 @@ from gspread.exceptions import SpreadsheetNotFound, APIError
 # 초기 설정
 # ===============================================================
 st.set_page_config(layout="wide")
-st.title("🚀 성찰 일지 분석 대시보드 (진단 강화)")
+st.title("🚀 성찰 일지 분석 대시보드")
 st.markdown("---")
 
 # ===============================================================
@@ -45,21 +45,29 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
     데이터 로딩을 시도하고, 실패 시 구체적인 원인과 해결책을 안내하는 함수
     """
     try:
-        # ‼️ DEBUGGING: JSON 키를 코드에 직접 삽입하여 Secrets 문제인지 확인합니다.
-        # ‼️ 보안상 매우 위험하므로, 테스트 후 반드시 원래의 코드로 되돌려야 합니다.
+        # 1. Streamlit Secrets에 키가 존재하는지 먼저 확인
+        if "gcp_service_account" not in st.secrets:
+            st.error("🚨 Secrets 설정 오류: 'gcp_service_account'를 찾을 수 없습니다.")
+            st.info("Streamlit Cloud의 'Settings > Secrets'에 gcp_service_account 이름으로 키를 올바르게 저장했는지 확인해주세요.")
+            return None
+
+        # 2. Google Sheets 클라이언트 인증 시도 (안정화된 최종 버전)
+        creds_info = st.secrets["gcp_service_account"]
         creds_dict = {
-            "type": "service_account",
-            "project_id": "gen-lang-client-0622212754",
-            "private_key_id": "9122e6c1595baf7c28a347a141d7d04d47713f61",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZ7OL24SikiTCE\nv24xdrSb1g6BuvSiqoT2XEtTFfIouz8ctVpQxtwpaKSNNVyvMCIIXWP1orgpYGu2\nuEAdsKd9VmBnVAEMSZpmUUqz1vtqU5fBtFNb0bZR5Sa8YLEn+fyTlIBHKiaezvFJ\nCx0f+WAMAb3usNrAGMcgZ/jq4H3A6eViuaa+QnQd7tRiKYh+HBDQt2GKhITWAKkc\nr0wGwaa/ZgcQV+8RCBRlEOjL2mP1Qyz2khY6DpNxO7WZmozbcAxYXUe9lq6YrC+2\neynPli4JSzLDHA7UDmWWLDFHejiELs1Zbnx8m8QLQskOM3TYAbVLDXM3hzD5MvF1\nlWzLe/IPAgMBAAECggEABe1iUWFwQDhsNDXEQjFbrm3lbHIiPiqqKMElwWhPRT7t\n+jwIOKNqZ58jnwXBW5mokIE6z9hZQSFOZIs0ejA1nZT4Qg0GZqO68gUKsbbYmEqU\ncHLHjE9HYbXyR5TC8v15usZ1fh1jFAB3Ys8DwG8eQg1wc+2ULuDat3u+0RnzSGdq\nEQV+8QeK0G3GFLPPX4IdnYOCp9ZjvHtHcpW8GXzyuuSUa3b16HUg0FvTSwvaJo0P\nicIb9dkP7Qb2wsDhWjbQ9qW/zw1oxnbUGsCdaVOLrEoUHOGAz9GmWO17hucotaIA\nI+zyQDpOekLKN7ETOlF4p/nH98SwoH6DuKBKtrEhIQKBgQDL6T61fAem73l6bDoC\nU3Y8uZrtmfmpe/5r7T6u9Bj59SCrhCK/LVzeJor8BQslCvlDPZ+zVhPTplt/hgMS\nG1gYpmePuZam/pmmUWhJlOmY8e6rfBkewc3ayv755V3GaJARGyQdqXAfo/C/OnZR\nGYdbqIRCFWWtYPtERShkQKvAfwKBgQDBPtMqNuu6awahBYjcBRlsY4zUti0aJ+Ve\no/EaIByZMc83XO6dZtxH+wjik/k4ybSEXmWd1NQw9NC/DH5YdERl+H1Uyz1Ib0Vv\ngKj0yymXCQzBiq1JRZFOG6K0fKcNOvXlIYpcaA+su1G4JzGrDvvkJ/x3i1vNQUTx\nekXPMlcGcQKBgQDAucVxVrcMys6wLNZvGF9qaarK43sa+3yumV9jkIaCyXKFabBF\nrSRXO2qlZEbyTfrl2Lq2j6bRpixYzVrdpEaRlcXQDAMd9wlWLx84XKykyBViszoy\n3c4o+zAfFPCa9H0mDdcGyfyViyeiNilZ4Z0TvqSyqPKe+kjCb/MLPiyXFQKBgDmN\n+5iEGPtBqwzEODnHbwYANE6aH569qSvhygpM7BeYZS4JCKxqmUr68m+BQOXv9UrD\nTqKOY9Bc6dss3mh74G86biGWEp+DPHv0Jt4ZsD5inKD8K5Y6GQfZZUE6Kwret6PR\ntILHH3wDolglnD5lTRJr8l6sa+AbA2ykTSxjwtWRAoGAdSmevGJGBjvPLOqA+de8\ntAR7VOk/2ifQl3HixHRydgfapMIhMtSmRQGbmsaaN9VM55v90XBMqlr9JpqrjGxC\nx+dy43pKm1JuEOcZZ1agW9uBqkujWz43YRq8x9TW6L47q6vKYvmkkGuhND5CX65h\nnJd0yuSVOQHOr5VODIEc4PI=\n-----END PRIVATE KEY-----\n",
-            "client_email": "teachingai@gen-lang-client-0622212754.iam.gserviceaccount.com",
-            "client_id": "109874061739557535802",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/teachingai%40gen-lang-client-0622212754.iam.gserviceaccount.com",
-            "universe_domain": "googleapis.com"
+            "type": creds_info["type"],
+            "project_id": creds_info["project_id"],
+            "private_key_id": creds_info["private_key_id"],
+            "private_key": creds_info["private_key"],
+            "client_email": creds_info["client_email"],
+            "client_id": creds_info["client_id"],
+            "auth_uri": creds_info["auth_uri"],
+            "token_uri": creds_info["token_uri"],
+            "auth_provider_x509_cert_url": creds_info["auth_provider_x509_cert_url"],
+            "client_x509_cert_url": creds_info["client_x509_cert_url"]
         }
+        if "universe_domain" in creds_info:
+            creds_dict["universe_domain"] = creds_info["universe_domain"]
+        
         gspread_client = gspread.service_account_from_dict(creds_dict)
 
 
@@ -112,7 +120,6 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
 
     except Exception as e:
         st.error("😭 예측하지 못한 오류가 발생했습니다.")
-        st.info("이제 문제는 Secrets가 아닌, 다른 곳에 있을 확률이 높습니다.")
         st.code(f"상세 오류: {e}", language=None)
         return None
 
