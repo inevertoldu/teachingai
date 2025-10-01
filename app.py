@@ -51,23 +51,24 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
             st.info("Streamlit Cloud의 'Settings > Secrets'에 gcp_service_account 이름으로 키를 올바르게 저장했는지 확인해주세요.")
             return None
 
-        # 2. Google Sheets 클라이언트 인증 시도 (✨ FIX: Secrets 포맷팅 문제에 대응하도록 코드 안정성 강화)
-        # TOML 파일의 해석 방식 차이에 상관없이 작동하도록 인증 정보를 코드에서 직접 조립합니다.
+        # 2. Google Sheets 클라이언트 인증 시도 (✨ FIX: Secrets 접근 방식을 딕셔너리 형태로 변경하여 안정성 대폭 향상)
+        # st.secrets 객체를 점(.)이 아닌 대괄호([])로 접근하여 데이터 타입 불일치 문제를 원천적으로 해결합니다.
+        creds_info = st.secrets["gcp_service_account"]
         creds_dict = {
-            "type": st.secrets.gcp_service_account.type,
-            "project_id": st.secrets.gcp_service_account.project_id,
-            "private_key_id": st.secrets.gcp_service_account.private_key_id,
-            "private_key": st.secrets.gcp_service_account.private_key,
-            "client_email": st.secrets.gcp_service_account.client_email,
-            "client_id": st.secrets.gcp_service_account.client_id,
-            "auth_uri": st.secrets.gcp_service_account.auth_uri,
-            "token_uri": st.secrets.gcp_service_account.token_uri,
-            "auth_provider_x509_cert_url": st.secrets.gcp_service_account.auth_provider_x509_cert_url,
-            "client_x509_cert_url": st.secrets.gcp_service_account.client_x509_cert_url
+            "type": creds_info["type"],
+            "project_id": creds_info["project_id"],
+            "private_key_id": creds_info["private_key_id"],
+            "private_key": creds_info["private_key"],
+            "client_email": creds_info["client_email"],
+            "client_id": creds_info["client_id"],
+            "auth_uri": creds_info["auth_uri"],
+            "token_uri": creds_info["token_uri"],
+            "auth_provider_x509_cert_url": creds_info["auth_provider_x509_cert_url"],
+            "client_x509_cert_url": creds_info["client_x509_cert_url"]
         }
         # universe_domain은 최신 키에만 존재하므로, 있을 때만 추가합니다.
-        if hasattr(st.secrets.gcp_service_account, 'universe_domain'):
-            creds_dict["universe_domain"] = st.secrets.gcp_service_account.universe_domain
+        if "universe_domain" in creds_info:
+            creds_dict["universe_domain"] = creds_info["universe_domain"]
 
         gspread_client = gspread.service_account_from_dict(creds_dict)
 
