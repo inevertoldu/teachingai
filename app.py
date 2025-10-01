@@ -51,9 +51,26 @@ def load_data_with_diagnostics(spreadsheet_name, sheet_name):
             st.info("Streamlit Cloud의 'Settings > Secrets'에 gcp_service_account 이름으로 키를 올바르게 저장했는지 확인해주세요.")
             return None
 
-        # 2. Google Sheets 클라이언트 인증 시도 (✨ FIX: gspread 표준 인증 방식으로 변경)
-        creds = dict(st.secrets["gcp_service_account"])
-        gspread_client = gspread.service_account_from_dict(creds)
+        # 2. Google Sheets 클라이언트 인증 시도 (✨ FIX: Secrets 포맷팅 문제에 대응하도록 코드 안정성 강화)
+        # TOML 파일의 해석 방식 차이에 상관없이 작동하도록 인증 정보를 코드에서 직접 조립합니다.
+        creds_dict = {
+            "type": st.secrets.gcp_service_account.type,
+            "project_id": st.secrets.gcp_service_account.project_id,
+            "private_key_id": st.secrets.gcp_service_account.private_key_id,
+            "private_key": st.secrets.gcp_service_account.private_key,
+            "client_email": st.secrets.gcp_service_account.client_email,
+            "client_id": st.secrets.gcp_service_account.client_id,
+            "auth_uri": st.secrets.gcp_service_account.auth_uri,
+            "token_uri": st.secrets.gcp_service_account.token_uri,
+            "auth_provider_x509_cert_url": st.secrets.gcp_service_account.auth_provider_x509_cert_url,
+            "client_x509_cert_url": st.secrets.gcp_service_account.client_x509_cert_url
+        }
+        # universe_domain은 최신 키에만 존재하므로, 있을 때만 추가합니다.
+        if hasattr(st.secrets.gcp_service_account, 'universe_domain'):
+            creds_dict["universe_domain"] = st.secrets.gcp_service_account.universe_domain
+
+        gspread_client = gspread.service_account_from_dict(creds_dict)
+
 
         # 3. 특정 스프레드시트 및 시트 접근 시도
         spread = Spread(spreadsheet_name, sheet=sheet_name, client=gspread_client)
